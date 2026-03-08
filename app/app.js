@@ -1,7 +1,7 @@
 import { normalizeManifest } from "/lib/manifest.js";
 import { parseRoute } from "/lib/router.js";
 import { getBasePath, pathWithoutBase, buildDataPath, buildLinkPath, buildFilePath } from "/lib/paths.js";
-import { isCanvasFile, normalizeCanvasModel, renderCanvasDiagram } from "/lib/canvas-viewer.js";
+import { JSONCanvasViewer, fetchCanvas, parser, Controls, Minimap } from "json-canvas-viewer";
 
 const app = document.getElementById("app");
 const basePath = getBasePath(window.location.pathname);
@@ -66,7 +66,12 @@ function clampScale(value) {
   return Math.max(0.1, Math.min(8, value));
 }
 
+function isCanvasFile(file) {
+  return String(file || "").toLowerCase().endsWith(".canvas");
+}
+
 async function renderDiagram(item) {
+  const canvasDiagram = isCanvasFile(item.file);
   const shell = createEl("section", "viewer-shell");
   const head = createEl("header", "viewer-head");
   const back = document.createElement("a");
@@ -78,30 +83,40 @@ async function renderDiagram(item) {
   });
 
   const title = createEl("strong", null, item.title);
-  const controls = createEl("div", "controls");
-  const zoomOut = createEl("button", null, "-");
-  const reset = createEl("button", null, "100%");
-  const zoomIn = createEl("button", null, "+");
-  controls.append(zoomOut, reset, zoomIn);
-  head.append(back, title, controls);
+  let controls = null;
+  let zoomOut = null;
+  let reset = null;
+  let zoomIn = null;
+  if (!canvasDiagram) {
+    controls = createEl("div", "controls");
+    zoomOut = createEl("button", null, "-");
+    reset = createEl("button", null, "100%");
+    zoomIn = createEl("button", null, "+");
+    controls.append(zoomOut, reset, zoomIn);
+    head.append(back, title, controls);
+  } else {
+    head.append(back, title);
+  }
 
   const canvas = createEl("section", "canvas");
   let target = null;
   let intrinsicWidth = toPositiveNumber(item.width);
   let intrinsicHeight = toPositiveNumber(item.height);
 
-  if (isCanvasFile(item.file)) {
+  if (canvasDiagram) {
     try {
-      const response = await fetch(buildFilePath(item.file, basePath), { cache: "no-store" });
-      if (!response.ok) {
-        throw new Error(`Could not load canvas file: ${response.status}`);
-      }
-      const raw = await response.json();
-      const model = normalizeCanvasModel(raw);
-      const rendered = renderCanvasDiagram({ container: canvas, model });
-      target = rendered.element;
-      intrinsicWidth = rendered.width;
-      intrinsicHeight = rendered.height;
+      const canvasHost = createEl("div", "diagram diagram-canvas-host");
+      canvas.append(canvasHost);
+      const parsed = await fetchCanvas(buildFilePath(item.file, basePath));
+      const viewer = new JSONCanvasViewer(
+        {
+          container: canvasHost,
+          canvas: parsed,
+          parser,
+        },
+        [Controls, Minimap],
+      );
+      viewer.resetView();
     } catch (error) {
       const failure = createEl("p", "notice", error.message || "Could not render canvas diagram");
       canvas.replaceChildren(failure);
@@ -162,14 +177,19 @@ async function renderDiagram(item) {
     apply();
   }
 
-  if (target) {
+  if (!canvasDiagram && target) {
     resetView();
   }
-  zoomIn.addEventListener("click", () => setScale(state.scale * 1.15));
-  zoomOut.addEventListener("click", () => setScale(state.scale / 1.15));
-  reset.addEventListener("click", resetView);
+  if (!canvasDiagram) {
+    zoomIn.addEventListener("click", () => setScale(state.scale * 1.15));
+    zoomOut.addEventListener("click", () => setScale(state.scale / 1.15));
+    reset.addEventListener("click", resetView);
+  }
 
   canvas.addEventListener("pointerdown", (event) => {
+    if (canvasDiagram) {
+      return;
+    }
     state.dragging = true;
     state.startX = event.clientX - state.x;
     state.startY = event.clientY - state.y;
@@ -177,6 +197,9 @@ async function renderDiagram(item) {
   });
 
   window.addEventListener("pointermove", (event) => {
+    if (canvasDiagram) {
+      return;
+    }
     if (!state.dragging) {
       return;
     }
@@ -186,35 +209,62 @@ async function renderDiagram(item) {
   });
 
   window.addEventListener("pointerup", () => {
+    if (canvasDiagram) {
+      return;
+    }
     state.dragging = false;
     canvas.classList.remove("dragging");
   });
 
   window.addEventListener("keydown", (event) => {
     if (event.key === "+" || event.key === "=") {
+      if (canvasDiagram) {
+        return;
+      }
       setScale(state.scale * 1.15);
     } else if (event.key === "-") {
+      if (canvasDiagram) {
+        return;
+      }
       setScale(state.scale / 1.15);
     } else if (event.key === "0") {
+      if (canvasDiagram) {
+        return;
+      }
       resetView();
     } else if (event.key === "Escape") {
       navigate(basePath || "/");
     } else if (event.key === "ArrowLeft") {
+      if (canvasDiagram) {
+        return;
+      }
       state.x += 30;
       apply();
     } else if (event.key === "ArrowRight") {
+      if (canvasDiagram) {
+        return;
+      }
       state.x -= 30;
       apply();
     } else if (event.key === "ArrowUp") {
+      if (canvasDiagram) {
+        return;
+      }
       state.y += 30;
       apply();
     } else if (event.key === "ArrowDown") {
+      if (canvasDiagram) {
+        return;
+      }
       state.y -= 30;
       apply();
     }
   });
 
   window.addEventListener("resize", () => {
+    if (canvasDiagram) {
+      return;
+    }
     resetView();
   });
 }
