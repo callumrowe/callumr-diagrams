@@ -10,6 +10,16 @@ docker compose up --build
 
 If Traefik is not running locally, open `http://localhost` only when directly publishing the container port in a temporary local compose override.
 
+## Local run without Traefik
+
+Use the local compose file that binds nginx directly to port 8080:
+
+```bash
+npm run start:local
+```
+
+Then open `http://localhost:8080`.
+
 ## Publish a new diagram
 
 1. Export a high-resolution PNG or SVG.

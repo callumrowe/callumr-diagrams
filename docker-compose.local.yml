@@ -1,0 +1,7 @@
+services:
+  diagram-app-local:
+    build: .
+    container_name: diagram-app-local
+    restart: unless-stopped
+    ports:
+      - "8080:80"

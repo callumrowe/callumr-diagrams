@@ -115,6 +115,10 @@ a:focus-visible {
 .canvas {
   overflow: hidden;
   position: relative;
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: grab;
 }
 
@@ -123,10 +127,14 @@ a:focus-visible {
 }
 
 .diagram {
+  display: block;
   transform-origin: 0 0;
   user-select: none;
   -webkit-user-drag: none;
-  max-width: none;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
 }
 
 .notice {

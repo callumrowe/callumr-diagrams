@@ -1,10 +1,12 @@
 import { normalizeManifest } from "/lib/manifest.js";
 import { parseRoute } from "/lib/router.js";
+import { getBasePath, pathWithoutBase, buildDataPath, buildLinkPath, buildFilePath } from "/lib/paths.js";
 
 const app = document.getElementById("app");
+const basePath = getBasePath(window.location.pathname);
 
 async function loadDiagrams() {
-  const response = await fetch("/data/diagrams.json", { cache: "no-store" });
+  const response = await fetch(buildDataPath(basePath), { cache: "no-store" });
   if (!response.ok) {
     throw new Error(`Could not load manifest: ${response.status}`);
   }
@@ -29,7 +31,7 @@ function navigate(path) {
 }
 
 function linkFor(slug) {
-  return `/${encodeURIComponent(slug)}`;
+  return buildLinkPath(slug, basePath);
 }
 
 function renderIndex(items) {
@@ -63,24 +65,15 @@ function clampScale(value) {
   return Math.max(0.1, Math.min(8, value));
 }
 
-function fitScale(container, image, naturalWidth, naturalHeight) {
-  const cw = container.clientWidth;
-  const ch = container.clientHeight;
-  if (!cw || !ch || !naturalWidth || !naturalHeight) {
-    return 1;
-  }
-  return Math.min(cw / naturalWidth, ch / naturalHeight);
-}
-
 function renderDiagram(item) {
   const shell = createEl("section", "viewer-shell");
   const head = createEl("header", "viewer-head");
   const back = document.createElement("a");
-  back.href = "/";
+  back.href = basePath || "/";
   back.textContent = "<- back";
   back.addEventListener("click", (event) => {
     event.preventDefault();
-    navigate("/");
+    navigate(basePath || "/");
   });
 
   const title = createEl("strong", null, item.title);
@@ -95,14 +88,8 @@ function renderDiagram(item) {
   const image = document.createElement("img");
   image.className = "diagram";
   image.alt = item.title;
-  image.src = item.file;
+  image.src = buildFilePath(item.file, basePath);
   image.draggable = false;
-  if (item.width) {
-    image.width = item.width;
-  }
-  if (item.height) {
-    image.height = item.height;
-  }
   canvas.append(image);
   shell.append(head, canvas);
   app.replaceChildren(shell);
@@ -123,15 +110,23 @@ function renderDiagram(item) {
   }
 
   function resetView() {
-    const naturalWidth = image.naturalWidth || item.width || image.width;
-    const naturalHeight = image.naturalHeight || item.height || image.height;
-    state.scale = clampScale(fitScale(canvas, image, naturalWidth, naturalHeight));
-    state.x = Math.max((canvas.clientWidth - naturalWidth * state.scale) / 2, 0);
-    state.y = Math.max((canvas.clientHeight - naturalHeight * state.scale) / 2, 0);
+    state.scale = 1;
+    state.x = 0;
+    state.y = 0;
     apply();
   }
 
   image.addEventListener("load", resetView);
+  image.addEventListener("error", () => {
+    const failure = createEl("p", "notice", `Could not load image: ${image.src}`);
+    canvas.replaceChildren(failure);
+  });
+  if (image.complete) {
+    resetView();
+  }
+  if (typeof image.decode === "function") {
+    image.decode().then(resetView).catch(() => {});
+  }
   zoomIn.addEventListener("click", () => setScale(state.scale * 1.15));
   zoomOut.addEventListener("click", () => setScale(state.scale / 1.15));
   reset.addEventListener("click", resetView);
@@ -165,7 +160,7 @@ function renderDiagram(item) {
     } else if (event.key === "0") {
       resetView();
     } else if (event.key === "Escape") {
-      navigate("/");
+      navigate(basePath || "/");
     } else if (event.key === "ArrowLeft") {
       state.x += 30;
       apply();
@@ -191,11 +186,11 @@ function renderNotFound(slug) {
   shell.append(createEl("h1", "title", "Diagram not found"));
   shell.append(createEl("p", "notice", `No published diagram exists for slug: ${slug}`));
   const link = document.createElement("a");
-  link.href = "/";
+  link.href = basePath || "/";
   link.textContent = "Back to index";
   link.addEventListener("click", (event) => {
     event.preventDefault();
-    navigate("/");
+    navigate(basePath || "/");
   });
   shell.append(link);
   app.replaceChildren(shell);
@@ -209,7 +204,7 @@ function renderError(error) {
 }
 
 async function render() {
-  const route = parseRoute(window.location.pathname.replace(/^\/diagrams/, "") || "/");
+  const route = parseRoute(pathWithoutBase(window.location.pathname, basePath) || "/");
   const items = await loadDiagrams();
   if (route.type === "index") {
     renderIndex(items);
