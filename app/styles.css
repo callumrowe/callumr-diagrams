@@ -137,6 +137,17 @@ a:focus-visible {
   height: auto;
 }
 
+.diagram-canvas {
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+}
+
+.diagram-canvas svg {
+  display: block;
+}
+
 .notice {
   padding: 1rem;
   border: 1px solid #c8d2dc;

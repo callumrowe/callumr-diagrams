@@ -11,5 +11,8 @@ test("every local manifest file path exists under app", () => {
     }
     const rel = file.startsWith("/") ? file.slice(1) : file;
     assert.equal(existsSync(`app/${rel}`), true, `missing asset for slug ${item.slug}: ${file}`);
+    if (file.toLowerCase().endsWith(".canvas")) {
+      assert.doesNotThrow(() => JSON.parse(readFileSync(`app/${rel}`, "utf8")));
+    }
   }
 });
