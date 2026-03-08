@@ -1,6 +1,7 @@
 import { normalizeManifest } from "/lib/manifest.js";
 import { parseRoute } from "/lib/router.js";
 import { getBasePath, pathWithoutBase, buildDataPath, buildLinkPath, buildFilePath } from "/lib/paths.js";
+import { isCanvasFile, normalizeCanvasModel, renderCanvasDiagram } from "/lib/canvas-viewer.js";
 
 const app = document.getElementById("app");
 const basePath = getBasePath(window.location.pathname);
@@ -65,7 +66,7 @@ function clampScale(value) {
   return Math.max(0.1, Math.min(8, value));
 }
 
-function renderDiagram(item) {
+async function renderDiagram(item) {
   const shell = createEl("section", "viewer-shell");
   const head = createEl("header", "viewer-head");
   const back = document.createElement("a");
@@ -85,19 +86,54 @@ function renderDiagram(item) {
   head.append(back, title, controls);
 
   const canvas = createEl("section", "canvas");
-  const image = document.createElement("img");
-  image.className = "diagram";
-  image.alt = item.title;
-  image.src = buildFilePath(item.file, basePath);
-  image.draggable = false;
-  canvas.append(image);
+  let target = null;
+  let intrinsicWidth = toPositiveNumber(item.width);
+  let intrinsicHeight = toPositiveNumber(item.height);
+
+  if (isCanvasFile(item.file)) {
+    try {
+      const response = await fetch(buildFilePath(item.file, basePath), { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`Could not load canvas file: ${response.status}`);
+      }
+      const raw = await response.json();
+      const model = normalizeCanvasModel(raw);
+      const rendered = renderCanvasDiagram({ container: canvas, model });
+      target = rendered.element;
+      intrinsicWidth = rendered.width;
+      intrinsicHeight = rendered.height;
+    } catch (error) {
+      const failure = createEl("p", "notice", error.message || "Could not render canvas diagram");
+      canvas.replaceChildren(failure);
+    }
+  } else {
+    const image = document.createElement("img");
+    image.className = "diagram";
+    image.alt = item.title;
+    image.src = buildFilePath(item.file, basePath);
+    image.draggable = false;
+    image.addEventListener("load", () => {
+      intrinsicWidth = toPositiveNumber(image.naturalWidth) || intrinsicWidth;
+      intrinsicHeight = toPositiveNumber(image.naturalHeight) || intrinsicHeight;
+      resetView();
+    });
+    image.addEventListener("error", () => {
+      const failure = createEl("p", "notice", `Could not load image: ${image.src}`);
+      canvas.replaceChildren(failure);
+    });
+    canvas.append(image);
+    target = image;
+  }
+
   shell.append(head, canvas);
   app.replaceChildren(shell);
 
   const state = { x: 0, y: 0, scale: 1, startX: 0, startY: 0, dragging: false };
 
   function apply() {
-    setTransform(image, state);
+    if (target) {
+      setTransform(target, state);
+    }
   }
 
   function setScale(next, anchorX = canvas.clientWidth / 2, anchorY = canvas.clientHeight / 2) {
@@ -110,22 +146,24 @@ function renderDiagram(item) {
   }
 
   function resetView() {
-    state.scale = 1;
-    state.x = 0;
-    state.y = 0;
+    const width = toPositiveNumber(intrinsicWidth);
+    const height = toPositiveNumber(intrinsicHeight);
+    if (!width || !height) {
+      state.scale = 1;
+      state.x = 0;
+      state.y = 0;
+      apply();
+      return;
+    }
+    const fit = Math.min((canvas.clientWidth * 0.92) / width, (canvas.clientHeight * 0.92) / height, 1);
+    state.scale = clampScale(fit);
+    state.x = (canvas.clientWidth - width * state.scale) / 2;
+    state.y = (canvas.clientHeight - height * state.scale) / 2;
     apply();
   }
 
-  image.addEventListener("load", resetView);
-  image.addEventListener("error", () => {
-    const failure = createEl("p", "notice", `Could not load image: ${image.src}`);
-    canvas.replaceChildren(failure);
-  });
-  if (image.complete) {
+  if (target) {
     resetView();
-  }
-  if (typeof image.decode === "function") {
-    image.decode().then(resetView).catch(() => {});
   }
   zoomIn.addEventListener("click", () => setScale(state.scale * 1.15));
   zoomOut.addEventListener("click", () => setScale(state.scale / 1.15));
@@ -215,7 +253,12 @@ async function render() {
     renderNotFound(route.slug);
     return;
   }
-  renderDiagram(found);
+  await renderDiagram(found);
+}
+
+function toPositiveNumber(value) {
+  const n = Number(value);
+  return Number.isFinite(n) && n > 0 ? n : null;
 }
 
 window.addEventListener("popstate", () => {
