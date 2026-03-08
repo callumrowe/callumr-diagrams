@@ -19,8 +19,7 @@ test("styles preserve viewer interaction styling hooks", () => {
   assert.equal(css.includes("max-height: 100%"), true);
 });
 
-test("styles load Inter and Space Grotesk fonts", () => {
+test("styles avoid remote font stylesheets blocked by CSP", () => {
   const css = readFileSync("app/styles.css", "utf8");
-  assert.equal(css.includes("family=Inter"), true);
-  assert.equal(css.includes("Space+Grotesk"), true);
+  assert.equal(css.includes("fonts.googleapis.com"), false);
 });

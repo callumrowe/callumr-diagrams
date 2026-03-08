@@ -1,7 +1,7 @@
 import { normalizeManifest } from "/lib/manifest.js";
 import { parseRoute } from "/lib/router.js";
 import { getBasePath, pathWithoutBase, buildDataPath, buildLinkPath, buildFilePath } from "/lib/paths.js";
-import { JSONCanvasViewer, fetchCanvas, parser, Controls, Minimap } from "json-canvas-viewer";
+import { JSONCanvasViewer, fetchCanvas, parser, Controls, Minimap } from "/lib/vendor/json-canvas-viewer.chimp.js";
 
 const app = document.getElementById("app");
 const basePath = getBasePath(window.location.pathname);
