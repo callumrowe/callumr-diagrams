@@ -1,0 +1,142 @@
+:root {
+  --bg: #f7f7f3;
+  --panel: #ffffff;
+  --fg: #1f2328;
+  --muted: #5b6168;
+  --line: #d6d8db;
+  --accent: #0d5e82;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  color: var(--fg);
+  background:
+    radial-gradient(circle at 10% 0%, #eef3f8 0%, transparent 35%),
+    radial-gradient(circle at 100% 100%, #eef1ec 0%, transparent 42%),
+    var(--bg);
+  font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
+}
+
+.shell {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.title {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.3rem, 1rem + 1.3vw, 2rem);
+  letter-spacing: 0.03em;
+}
+
+.subtle {
+  margin: 0 0 1.4rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+}
+
+.list li + li {
+  border-top: 1px solid var(--line);
+}
+
+.list a {
+  display: block;
+  padding: 0.9rem 1rem;
+}
+
+.list a:hover,
+.list a:focus-visible {
+  background: #eef4f8;
+}
+
+.viewer-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.viewer-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+}
+
+.controls {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.controls button {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--fg);
+  padding: 0.35rem 0.55rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.controls button:hover,
+.controls button:focus-visible {
+  background: #eef4f8;
+}
+
+.canvas {
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+}
+
+.canvas.dragging {
+  cursor: grabbing;
+}
+
+.diagram {
+  transform-origin: 0 0;
+  user-select: none;
+  -webkit-user-drag: none;
+  max-width: none;
+}
+
+.notice {
+  padding: 1rem;
+  border: 1px solid #c8d2dc;
+  background: #f0f5f9;
+}
+
+@media (max-width: 720px) {
+  .controls {
+    margin-left: 0;
+  }
+}

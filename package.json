@@ -1,0 +1,13 @@
+{
+  "name": "2026-03-09-callumr-diagram-app",
+  "version": "1.0.0",
+  "description": "App for displaying my diagrams on my website",
+  "type": "module",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "node --test",
+    "start": "docker compose up --build"
+  },
+  "author": "",
+  "license": "ISC"
+}
