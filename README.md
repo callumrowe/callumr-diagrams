@@ -2,6 +2,12 @@
 
 Minimal, read-only diagram gallery for `https://callums.work/diagrams`.
 
+## Visual language
+
+The app styling uses semantic tokens in `app/styles.css` (for example `--background`, `--foreground`, `--primary`, `--border`, and `--radius`) and loads Inter + Space Grotesk to align with the style direction used in `callum-rowe-lab`.
+
+This pass is visual only. Theme toggling and dark-mode behavior are intentionally out of scope.
+
 ## Local run
 
 ```bash
