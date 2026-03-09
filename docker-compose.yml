@@ -17,5 +17,5 @@ services:
       - core
 
 networks:
-  traefik-public:
+  core:
     external: true
