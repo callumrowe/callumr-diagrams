@@ -1,7 +1,7 @@
 import { normalizeManifest } from "/lib/manifest.js";
 import { parseRoute } from "/lib/router.js";
 import { getBasePath, pathWithoutBase, buildDataPath, buildLinkPath, buildFilePath } from "/lib/paths.js";
-import { JSONCanvasViewer, fetchCanvas, parser, Controls, Minimap } from "/lib/vendor/json-canvas-viewer.chimp.js";
+import { JSONCanvasViewer, parser, Controls, Minimap } from "/lib/vendor/json-canvas-viewer.chimp.js";
 
 const app = document.getElementById("app");
 const basePath = getBasePath(window.location.pathname);
@@ -99,6 +99,9 @@ async function renderDiagram(item) {
   }
 
   const canvas = createEl("section", "canvas");
+  shell.append(head, canvas);
+  app.replaceChildren(shell);
+
   let target = null;
   let intrinsicWidth = toPositiveNumber(item.width);
   let intrinsicHeight = toPositiveNumber(item.height);
@@ -107,7 +110,11 @@ async function renderDiagram(item) {
     try {
       const canvasHost = createEl("div", "diagram diagram-canvas-host");
       canvas.append(canvasHost);
-      const parsed = await fetchCanvas(buildFilePath(item.file, basePath));
+      const response = await fetch(buildFilePath(item.file, basePath), { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`Could not load canvas file: ${response.status}`);
+      }
+      const parsed = await response.json();
       const viewer = new JSONCanvasViewer(
         {
           container: canvasHost,
@@ -139,9 +146,6 @@ async function renderDiagram(item) {
     canvas.append(image);
     target = image;
   }
-
-  shell.append(head, canvas);
-  app.replaceChildren(shell);
 
   const state = { x: 0, y: 0, scale: 1, startX: 0, startY: 0, dragging: false };
 

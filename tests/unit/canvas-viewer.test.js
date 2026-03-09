@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isCanvasFile, normalizeCanvasModel } from "../../app/lib/canvas-viewer.js";
+import { isCanvasFile, normalizeCanvasModel, wrapCanvasText } from "../../app/lib/canvas-viewer.js";
 
 test("isCanvasFile detects .canvas paths case-insensitively", () => {
   assert.equal(isCanvasFile("/assets/diagram.canvas"), true);
@@ -24,4 +24,10 @@ test("normalizeCanvasModel keeps text nodes and valid edges", () => {
   assert.equal(model.nodes[0].id, "a");
   assert.equal(model.edges.length, 1);
   assert.equal(model.edges[0].id, "e1");
+});
+
+test("wrapCanvasText breaks long unspaced tokens", () => {
+  const lines = wrapCanvasText("averyveryveryveryveryverylongword", 120);
+  assert.equal(lines.length > 1, true);
+  assert.equal(lines.every((line) => line.length <= 12), true);
 });

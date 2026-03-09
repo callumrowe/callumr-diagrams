@@ -79,11 +79,25 @@ function getAnchor(node, side) {
 }
 
 function estimateLineLimit(width) {
-  return Math.max(10, Math.floor((width - 20) / 7.2));
+  return Math.max(8, Math.floor((width - 20) / 8));
+}
+
+function splitLongWord(word, maxChars) {
+  if (word.length <= maxChars) {
+    return [word];
+  }
+  const chunks = [];
+  for (let i = 0; i < word.length; i += maxChars) {
+    chunks.push(word.slice(i, i + maxChars));
+  }
+  return chunks;
 }
 
 function wrapLine(line, maxChars) {
-  const words = String(line).split(/\s+/).filter(Boolean);
+  const words = String(line)
+    .split(/\s+/)
+    .filter(Boolean)
+    .flatMap((word) => splitLongWord(word, maxChars));
   if (words.length === 0) {
     return [""];
   }
@@ -111,6 +125,10 @@ function wrapText(text, width) {
     lines.push(...wrapLine(line, maxChars));
   }
   return lines;
+}
+
+export function wrapCanvasText(text, width) {
+  return wrapText(text, width);
 }
 
 function getBounds(nodes) {
