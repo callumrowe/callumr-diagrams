@@ -5,12 +5,10 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.diagram-app.rule=Host(`callums.work`) && PathPrefix(`/diagrams`)
+      - traefik.http.routers.diagram-app.rule=Host(`diagrams.callums.work`)
       - traefik.http.routers.diagram-app.entrypoints=websecure
       - traefik.http.routers.diagram-app.tls=true
       - traefik.http.routers.diagram-app.tls.certresolver=${TRAEFIK_CERTRESOLVER:-letsencrypt}
-      - traefik.http.routers.diagram-app.middlewares=diagram-app-strip@docker
-      - traefik.http.middlewares.diagram-app-strip.stripprefix.prefixes=/diagrams
       - traefik.http.services.diagram-app.loadbalancer.server.port=80
       - traefik.docker.network=traefik-public
     networks:
