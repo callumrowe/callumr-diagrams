@@ -23,3 +23,12 @@ test("styles avoid remote font stylesheets blocked by CSP", () => {
   const css = readFileSync("app/styles.css", "utf8");
   assert.equal(css.includes("fonts.googleapis.com"), false);
 });
+
+test("viewer layout pins canvas to viewport without page-scroll drift", () => {
+  const css = readFileSync("app/styles.css", "utf8");
+  assert.equal(css.includes(".viewer-shell"), true);
+  assert.equal(css.includes("height: 100vh"), true);
+  assert.equal(css.includes("overflow: hidden"), true);
+  assert.equal(/\.canvas\s*\{[\s\S]*min-height:\s*0;/.test(css), true);
+  assert.equal(/\.diagram-canvas-host\s*\{[\s\S]*height:\s*100%;[\s\S]*min-height:\s*0;/.test(css), true);
+});
