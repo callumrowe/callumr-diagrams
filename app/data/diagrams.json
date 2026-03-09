@@ -3,7 +3,14 @@
     "slug": "empowered-teams-v-managed-teams",
     "title": "Empowered Teams vs Managed Teams",
     "file": "/assets/diagrams/Empowered teams vs managed teams.canvas",
-    "width": 2985,
-    "height": 1450
+    "width": 6350,
+    "height": 3054
+  },
+  {
+    "slug": "product-management-at-a-glance",
+    "title": "Product Management at a glance",
+    "file": "/assets/diagrams/product-management-at-a-glance.canvas",
+    "width": 2268,
+    "height": 2520
   }
 ]
