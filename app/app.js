@@ -1,7 +1,18 @@
 import { normalizeManifest } from "/lib/manifest.js";
 import { parseRoute } from "/lib/router.js";
-import { getBasePath, pathWithoutBase, buildDataPath, buildLinkPath, buildFilePath } from "/lib/paths.js";
-import { JSONCanvasViewer, parser, Controls, Minimap } from "/lib/vendor/json-canvas-viewer.chimp.js";
+import {
+  getBasePath,
+  pathWithoutBase,
+  buildDataPath,
+  buildLinkPath,
+  buildFilePath,
+} from "/lib/paths.js";
+import {
+  JSONCanvasViewer,
+  parser,
+  Controls,
+  Minimap,
+} from "/lib/vendor/json-canvas-viewer.chimp.js";
 
 const app = document.getElementById("app");
 const basePath = getBasePath(window.location.pathname);
@@ -40,7 +51,13 @@ function linkFor(slug) {
 function renderIndex(items) {
   const shell = createEl("section", "shell");
   shell.append(createEl("h1", "title", "Diagrams"));
-  shell.append(createEl("p", "subtle", "Models, ideas, and product thinking."));
+  shell.append(
+    createEl(
+      "p",
+      "subtle",
+      "Models, workflows, and maps that give an insight into the way I think about work.",
+    ),
+  );
 
   const list = createEl("ul", "list");
   for (const item of items) {
@@ -69,7 +86,9 @@ function clampScale(value) {
 }
 
 function isCanvasFile(file) {
-  return String(file || "").toLowerCase().endsWith(".canvas");
+  return String(file || "")
+    .toLowerCase()
+    .endsWith(".canvas");
 }
 
 async function renderDiagram(item) {
@@ -86,7 +105,8 @@ async function renderDiagram(item) {
     navigate(basePath || "/");
   });
 
-  const title = createEl("strong", null, item.title);
+  const titleWrap = createEl("span", "viewer-title");
+  titleWrap.textContent = item.title;
   let controls = null;
   let zoomOut = null;
   let reset = null;
@@ -97,9 +117,9 @@ async function renderDiagram(item) {
     reset = createEl("button", null, "100%");
     zoomIn = createEl("button", null, "+");
     controls.append(zoomOut, reset, zoomIn);
-    head.append(back, title, controls);
+    head.append(back, titleWrap, controls);
   } else {
-    head.append(back, title);
+    head.append(back, titleWrap);
   }
 
   const canvas = createEl("section", "canvas");
@@ -114,7 +134,9 @@ async function renderDiagram(item) {
     try {
       const canvasHost = createEl("div", "diagram diagram-canvas-host");
       canvas.append(canvasHost);
-      const response = await fetch(buildFilePath(item.file, basePath), { cache: "no-store" });
+      const response = await fetch(buildFilePath(item.file, basePath), {
+        cache: "no-store",
+      });
       if (!response.ok) {
         throw new Error(`Could not load canvas file: ${response.status}`);
       }
@@ -129,7 +151,11 @@ async function renderDiagram(item) {
       );
       viewer.resetView();
     } catch (error) {
-      const failure = createEl("p", "notice", error.message || "Could not render canvas diagram");
+      const failure = createEl(
+        "p",
+        "notice",
+        error.message || "Could not render canvas diagram",
+      );
       canvas.replaceChildren(failure);
     }
   } else {
@@ -140,11 +166,16 @@ async function renderDiagram(item) {
     image.draggable = false;
     image.addEventListener("load", () => {
       intrinsicWidth = toPositiveNumber(image.naturalWidth) || intrinsicWidth;
-      intrinsicHeight = toPositiveNumber(image.naturalHeight) || intrinsicHeight;
+      intrinsicHeight =
+        toPositiveNumber(image.naturalHeight) || intrinsicHeight;
       resetView();
     });
     image.addEventListener("error", () => {
-      const failure = createEl("p", "notice", `Could not load image: ${image.src}`);
+      const failure = createEl(
+        "p",
+        "notice",
+        `Could not load image: ${image.src}`,
+      );
       canvas.replaceChildren(failure);
     });
     canvas.append(image);
@@ -159,7 +190,11 @@ async function renderDiagram(item) {
     }
   }
 
-  function setScale(next, anchorX = canvas.clientWidth / 2, anchorY = canvas.clientHeight / 2) {
+  function setScale(
+    next,
+    anchorX = canvas.clientWidth / 2,
+    anchorY = canvas.clientHeight / 2,
+  ) {
     const before = state.scale;
     state.scale = clampScale(next);
     const ratio = state.scale / before;
@@ -178,7 +213,11 @@ async function renderDiagram(item) {
       apply();
       return;
     }
-    const fit = Math.min((canvas.clientWidth * 0.92) / width, (canvas.clientHeight * 0.92) / height, 1);
+    const fit = Math.min(
+      (canvas.clientWidth * 0.92) / width,
+      (canvas.clientHeight * 0.92) / height,
+      1,
+    );
     state.scale = clampScale(fit);
     state.x = (canvas.clientWidth - width * state.scale) / 2;
     state.y = (canvas.clientHeight - height * state.scale) / 2;
@@ -280,7 +319,9 @@ async function renderDiagram(item) {
 function renderNotFound(slug) {
   const shell = createEl("section", "shell");
   shell.append(createEl("h1", "title", "Diagram not found"));
-  shell.append(createEl("p", "notice", `No published diagram exists for slug: ${slug}`));
+  shell.append(
+    createEl("p", "notice", `No published diagram exists for slug: ${slug}`),
+  );
   const link = document.createElement("a");
   link.href = basePath || "/";
   link.textContent = "Back to index";
@@ -300,7 +341,9 @@ function renderError(error) {
 }
 
 async function render() {
-  const route = parseRoute(pathWithoutBase(window.location.pathname, basePath) || "/");
+  const route = parseRoute(
+    pathWithoutBase(window.location.pathname, basePath) || "/",
+  );
   const items = await loadDiagrams();
   if (route.type === "index") {
     renderIndex(items);

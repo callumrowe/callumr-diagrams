@@ -10,4 +10,5 @@ test("diagram back control uses JCV chevron button styling", () => {
   assert.equal(source.includes('back.innerHTML ='), true);
   assert.equal(source.includes("viewBox=\"-3.6 -3.6 31.2 31.2\""), true);
   assert.equal(source.includes('back.setAttribute("aria-label", "Back to index");'), true);
+  assert.equal(source.includes('const titleWrap = createEl("span", "viewer-title");'), true);
 });

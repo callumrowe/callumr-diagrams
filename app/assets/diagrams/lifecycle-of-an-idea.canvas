@@ -6,13 +6,14 @@
 		{"id":"abdb3dba00f038fa","type":"text","text":"Business casing and measurement","x":-280,"y":60,"width":250,"height":60},
 		{"id":"f479c497b1fde485","type":"text","text":"Refine measurement to understand performance of the minimum","x":123,"y":79,"width":250,"height":67},
 		{"id":"467f124b56e57bd7","type":"text","text":"Slice out scope to figure out what the minimum is","x":160,"y":-100,"width":250,"height":60},
-		{"id":"235970757a84517e","type":"text","text":"Designers explore that end state, variations, kernel(s), fast-follows","x":160,"y":-354,"width":250,"height":74},
+		{"id":"235970757a84517e","type":"text","text":"Designers explore that end state, variations, minimum versions, fast-follows","x":160,"y":-354,"width":250,"height":74},
 		{"id":"fc54c59d945758c0","type":"text","text":"Are we hitting \"survival metrics\"","x":492,"y":76,"width":250,"height":60},
 		{"id":"f2637caac6ff451f","type":"text","text":"Ship the minimum","x":520,"y":-100,"width":250,"height":60},
 		{"id":"506f4a9ff370bcbc","type":"text","text":"Ship the fast-follows","x":860,"y":-103,"width":250,"height":60},
 		{"id":"2ba810ecb7206028","type":"text","text":"Are hitting \"success\" metrics","x":1060,"y":76,"width":250,"height":60},
 		{"id":"ff81c7578ad12bdf","type":"text","text":"Ship R2+","x":1310,"y":-103,"width":250,"height":60},
-		{"id":"9f35756d27ce80e5","x":1704,"y":-101,"width":250,"height":60,"type":"text","text":"Crack a beer"}
+		{"id":"9f35756d27ce80e5","type":"text","text":"Crack a beer","x":1704,"y":-101,"width":250,"height":60},
+		{"id":"a601bca4fc272908","type":"text","text":"We slice things out with logic and evangelize our decisions. We still need to ensure we're working within constraints and/or supporting biz. A stakeholder needs to make the logical case for why their thing needs to stay in - not the other way around. Speed over random opinions","x":520,"y":-480,"width":250,"height":228}
 	],
 	"edges":[
 		{"id":"b606059c1d43eae9","fromNode":"ff0a3c30e24ca149","fromSide":"right","toNode":"964476e4643e6a52","toSide":"left"},
@@ -29,6 +30,7 @@
 		{"id":"ac9aa960d3cea56c","fromNode":"ff0a3c30e24ca149","fromSide":"right","toNode":"abdb3dba00f038fa","toSide":"left"},
 		{"id":"c01a455c9528d961","fromNode":"abdb3dba00f038fa","fromSide":"right","toNode":"f479c497b1fde485","toSide":"left"},
 		{"id":"8d440bd53e2f4730","fromNode":"2ba810ecb7206028","fromSide":"right","toNode":"ff81c7578ad12bdf","toSide":"bottom"},
-		{"id":"89e988e637f742fd","fromNode":"ff81c7578ad12bdf","fromSide":"right","toNode":"9f35756d27ce80e5","toSide":"left"}
+		{"id":"89e988e637f742fd","fromNode":"ff81c7578ad12bdf","fromSide":"right","toNode":"9f35756d27ce80e5","toSide":"left"},
+		{"id":"89b44ad23bd7ba63","fromNode":"467f124b56e57bd7","fromSide":"top","toNode":"a601bca4fc272908","toSide":"bottom"}
 	]
 }
