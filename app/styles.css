@@ -112,6 +112,35 @@ a:focus-visible {
   font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+.viewer-back {
+  cursor: pointer;
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  padding: 5px 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 200ms, transform 200ms;
+}
+
+.viewer-back svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.viewer-back:hover,
+.viewer-back:focus-visible {
+  background: var(--muted);
+}
+
 .controls {
   margin-left: auto;
   display: flex;

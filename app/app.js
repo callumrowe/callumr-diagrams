@@ -5,6 +5,8 @@ import { JSONCanvasViewer, parser, Controls, Minimap } from "/lib/vendor/json-ca
 
 const app = document.getElementById("app");
 const basePath = getBasePath(window.location.pathname);
+const chevronIcon =
+  '<svg viewBox="-3.6 -3.6 31.2 31.2" stroke-width=".4"><path d="M15.707 4.293a1 1 0 0 1 0 1.414L9.414 12l6.293 6.293a1 1 0 0 1-1.414 1.414l-7-7a1 1 0 0 1 0-1.414l7-7a1 1 0 0 1 1.414 0Z" /></svg>';
 
 async function loadDiagrams() {
   const response = await fetch(buildDataPath(basePath), { cache: "no-store" });
@@ -74,9 +76,10 @@ async function renderDiagram(item) {
   const canvasDiagram = isCanvasFile(item.file);
   const shell = createEl("section", "viewer-shell");
   const head = createEl("header", "viewer-head");
-  const back = document.createElement("a");
-  back.href = basePath || "/";
-  back.textContent = "←";
+  const back = document.createElement("button");
+  back.type = "button";
+  back.className = "viewer-back";
+  back.innerHTML = chevronIcon;
   back.setAttribute("aria-label", "Back to index");
   back.addEventListener("click", (event) => {
     event.preventDefault();
