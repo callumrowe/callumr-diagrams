@@ -1,6 +1,6 @@
 # Diagrams App
 
-Minimal, read-only diagram gallery for `https://callums.work/diagrams`.
+Minimal, read-only diagram gallery for `https://diagrams.callums.work/diagrams`.
 
 ## Visual language
 
@@ -52,9 +52,8 @@ docker compose up -d --build
 
 ## Traefik route
 
-- Router rule: `Host(callums.work) && PathPrefix(/diagrams)`
-- Middleware: strip `/diagrams`
-- App handles index (`/`) and diagram routes (`/<slug>`) after prefix stripping.
+- Router rule: `Host(diagrams.callums.work)`
+- Nginx handles `/diagrams` base-path routing and rewrites.
 
 ## Verification
 

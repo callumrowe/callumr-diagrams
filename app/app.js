@@ -76,7 +76,8 @@ async function renderDiagram(item) {
   const head = createEl("header", "viewer-head");
   const back = document.createElement("a");
   back.href = basePath || "/";
-  back.textContent = "<- back";
+  back.textContent = "←";
+  back.setAttribute("aria-label", "Back to index");
   back.addEventListener("click", (event) => {
     event.preventDefault();
     navigate(basePath || "/");
