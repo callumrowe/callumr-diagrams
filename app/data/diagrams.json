@@ -2,7 +2,7 @@
   {
     "slug": "empowered-teams-v-managed-teams",
     "title": "Empowered Teams vs Managed Teams",
-    "file": "/assets/diagrams/Empowered teams vs managed teams.canvas",
+    "file": "/assets/diagrams/empowered-teams-vs-managed-teams.canvas",
     "width": 6350,
     "height": 3054
   },
@@ -10,6 +10,13 @@
     "slug": "product-management-at-a-glance",
     "title": "Product Management at a glance",
     "file": "/assets/diagrams/product-management-at-a-glance.canvas",
+    "width": 2268,
+    "height": 2520
+  },
+  {
+    "slug": "lifecycle-of-an-idea",
+    "title": "Lifecycle of an idea",
+    "file": "/assets/diagrams/lifecycle-of-an-idea.canvas",
     "width": 2268,
     "height": 2520
   }

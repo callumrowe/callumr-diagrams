@@ -1,0 +1,34 @@
+{
+	"nodes":[
+		{"id":"964476e4643e6a52","type":"text","text":"Refining an end state","x":-260,"y":-280,"width":250,"height":60},
+		{"id":"2d26cf129825d3cc","type":"text","text":"Identifying the MVP that delivers 80% of the value","x":-240,"y":-119,"width":250,"height":79},
+		{"id":"ff0a3c30e24ca149","type":"text","text":"Idea","x":-660,"y":-200,"width":250,"height":60},
+		{"id":"abdb3dba00f038fa","type":"text","text":"Business casing and measurement","x":-280,"y":60,"width":250,"height":60},
+		{"id":"f479c497b1fde485","type":"text","text":"Refine measurement to understand performance of the minimum","x":123,"y":79,"width":250,"height":67},
+		{"id":"467f124b56e57bd7","type":"text","text":"Slice out scope to figure out what the minimum is","x":160,"y":-100,"width":250,"height":60},
+		{"id":"235970757a84517e","type":"text","text":"Designers explore that end state, variations, kernel(s), fast-follows","x":160,"y":-354,"width":250,"height":74},
+		{"id":"fc54c59d945758c0","type":"text","text":"Are we hitting \"survival metrics\"","x":492,"y":76,"width":250,"height":60},
+		{"id":"f2637caac6ff451f","type":"text","text":"Ship the minimum","x":520,"y":-100,"width":250,"height":60},
+		{"id":"506f4a9ff370bcbc","type":"text","text":"Ship the fast-follows","x":860,"y":-103,"width":250,"height":60},
+		{"id":"2ba810ecb7206028","type":"text","text":"Are hitting \"success\" metrics","x":1060,"y":76,"width":250,"height":60},
+		{"id":"ff81c7578ad12bdf","type":"text","text":"Ship R2+","x":1310,"y":-103,"width":250,"height":60},
+		{"id":"9f35756d27ce80e5","x":1704,"y":-101,"width":250,"height":60,"type":"text","text":"Crack a beer"}
+	],
+	"edges":[
+		{"id":"b606059c1d43eae9","fromNode":"ff0a3c30e24ca149","fromSide":"right","toNode":"964476e4643e6a52","toSide":"left"},
+		{"id":"08e513fbf2677704","fromNode":"ff0a3c30e24ca149","fromSide":"right","toNode":"2d26cf129825d3cc","toSide":"left"},
+		{"id":"2f96236e022cdb74","fromNode":"964476e4643e6a52","fromSide":"right","toNode":"235970757a84517e","toSide":"left"},
+		{"id":"6ea5c70a9f5afaa1","fromNode":"2d26cf129825d3cc","fromSide":"right","toNode":"467f124b56e57bd7","toSide":"left"},
+		{"id":"12fc4d84c06e90fe","fromNode":"467f124b56e57bd7","fromSide":"bottom","toNode":"f479c497b1fde485","toSide":"top","fromEnd":"arrow"},
+		{"id":"ccef9741a7b14e1d","fromNode":"235970757a84517e","fromSide":"bottom","toNode":"467f124b56e57bd7","toSide":"top","fromEnd":"arrow"},
+		{"id":"f6c456abe50b2a72","fromNode":"467f124b56e57bd7","fromSide":"right","toNode":"f2637caac6ff451f","toSide":"top"},
+		{"id":"22b5fd0d5824e917","fromNode":"f479c497b1fde485","fromSide":"right","toNode":"fc54c59d945758c0","toSide":"left"},
+		{"id":"080e45877d7834a6","fromNode":"f2637caac6ff451f","fromSide":"bottom","toNode":"fc54c59d945758c0","toSide":"top"},
+		{"id":"516115c3a8c92652","fromNode":"fc54c59d945758c0","fromSide":"right","toNode":"506f4a9ff370bcbc","toSide":"bottom"},
+		{"id":"16ae9a47d995d2ae","fromNode":"506f4a9ff370bcbc","fromSide":"right","toNode":"2ba810ecb7206028","toSide":"top"},
+		{"id":"ac9aa960d3cea56c","fromNode":"ff0a3c30e24ca149","fromSide":"right","toNode":"abdb3dba00f038fa","toSide":"left"},
+		{"id":"c01a455c9528d961","fromNode":"abdb3dba00f038fa","fromSide":"right","toNode":"f479c497b1fde485","toSide":"left"},
+		{"id":"8d440bd53e2f4730","fromNode":"2ba810ecb7206028","fromSide":"right","toNode":"ff81c7578ad12bdf","toSide":"bottom"},
+		{"id":"89e988e637f742fd","fromNode":"ff81c7578ad12bdf","fromSide":"right","toNode":"9f35756d27ce80e5","toSide":"left"}
+	]
+}
