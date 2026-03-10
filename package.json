@@ -7,6 +7,7 @@
   "scripts": {
     "test": "node --test",
     "start": "docker compose up -d --build",
+    "deploy": "gh repo sync && npm run start",
     "start:local": "docker compose -f docker-compose.local.yml up --build"
   },
   "author": "",
