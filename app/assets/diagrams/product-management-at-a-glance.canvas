@@ -1,8 +1,5 @@
 {
 	"nodes":[
-		{"id":"349262f386558819","type":"text","text":"# *Ideas*","x":200,"y":-260,"width":140,"height":116,"color":"5"},
-		{"id":"917140aaf6c369a7","type":"text","text":"# *Experiments*","x":860,"y":-310,"width":250,"height":60,"color":"5"},
-		{"id":"7817b2d398e5100c","type":"text","text":"# *Roadmap*","x":760,"y":145,"width":250,"height":61,"color":"5"},
 		{"id":"dcbfb8590516bca6","type":"text","text":"# Backlog","x":1460,"y":-153,"width":250,"height":53,"color":"4"},
 		{"id":"2a0c341026d945f3","type":"text","text":"# Shaping and design","x":2000,"y":-340,"width":280,"height":60,"color":"4"},
 		{"id":"991160269ae02d4f","type":"text","text":"# Humans","x":3640,"y":-135,"width":250,"height":60},
@@ -29,23 +26,26 @@
 		{"id":"df414cd6b8d3ce9f","type":"text","text":"- Communicate the why\n- Make dependencies explicit\n- Give & take actions","x":1750,"y":720,"width":250,"height":160,"color":"1"},
 		{"id":"de0ad1d25154e196","type":"text","text":"# Delivery","x":2140,"y":47,"width":250,"height":61,"color":"4"},
 		{"id":"0d9914c7060e7cd1","type":"text","text":"# Product change","x":2840,"y":-153,"width":250,"height":86},
-		{"id":"939208c808745ab5","type":"text","text":"### Product Manager 🧑‍💻\nGOAL\n- Product changes that create business value and meet the needs of stakeholders","x":995,"y":-585,"width":320,"height":220,"color":"6"}
+		{"id":"939208c808745ab5","type":"text","text":"### Product Manager 🧑‍💻\nGOAL\n- Product changes that create business value and meet the needs of stakeholders","x":995,"y":-585,"width":320,"height":220,"color":"6"},
+		{"id":"f0cddac7b2e1c16e","type":"text","text":"# Ideas ","x":295,"y":-144,"width":250,"height":60,"color":"5"},
+		{"id":"2d2cdec37a1bbf87","type":"text","text":"# Experiments ","x":842,"y":-308,"width":250,"height":60,"color":"5"},
+		{"id":"e40f226a80e4574b","type":"text","text":"# Roadmap","x":817,"y":97,"width":250,"height":60,"color":"5"}
 	],
 	"edges":[
-		{"id":"59efc3ab57ae6692","fromNode":"015a51198e39025a","fromSide":"right","toNode":"349262f386558819","toSide":"left"},
-		{"id":"ac20c99717bfa7af","fromNode":"f2c82f20a0cc8f7f","fromSide":"right","toNode":"349262f386558819","toSide":"left"},
-		{"id":"82973de68196dd16","fromNode":"349262f386558819","fromSide":"right","toNode":"917140aaf6c369a7","toSide":"left","label":"drives"},
-		{"id":"fb8a4d456850b471","fromNode":"917140aaf6c369a7","fromSide":"bottom","toNode":"7817b2d398e5100c","toSide":"top","label":"informs"},
-		{"id":"e59233297ae229ec","fromNode":"7817b2d398e5100c","fromSide":"left","toNode":"349262f386558819","toSide":"bottom","label":"populates"},
-		{"id":"8f466faf3128bc00","fromNode":"7817b2d398e5100c","fromSide":"right","toNode":"dcbfb8590516bca6","toSide":"left","label":"populates"},
 		{"id":"2342cd05ca96c6cc","fromNode":"dcbfb8590516bca6","fromSide":"right","toNode":"2a0c341026d945f3","toSide":"left","label":"informs"},
-		{"id":"61155fb6e87d8cc1","fromNode":"917140aaf6c369a7","fromSide":"right","toNode":"dcbfb8590516bca6","toSide":"left","label":"populates"},
 		{"id":"762a33c249ea7f45","fromNode":"2a0c341026d945f3","fromSide":"right","toNode":"de0ad1d25154e196","toSide":"top","label":"enables"},
 		{"id":"0ddb69dede613c06","fromNode":"de0ad1d25154e196","fromSide":"left","toNode":"dcbfb8590516bca6","toSide":"bottom","label":"re-populates"},
 		{"id":"d738ead98d1538b3","fromNode":"de0ad1d25154e196","fromSide":"right","toNode":"0d9914c7060e7cd1","toSide":"left","label":"produces"},
 		{"id":"ed403fdcdde4dd50","fromNode":"0d9914c7060e7cd1","fromSide":"right","toNode":"991160269ae02d4f","toSide":"left"},
 		{"id":"4a9dbb3bfcf32a97","fromNode":"7c6a24044a4790d5","fromSide":"right","toNode":"991160269ae02d4f","toSide":"left","label":"helps"},
 		{"id":"6a84aa7aa271f63e","fromNode":"f693b36ffee037fa","fromSide":"right","toNode":"991160269ae02d4f","toSide":"left","label":"informs"},
-		{"id":"fbe0c89e5ef909da","fromNode":"393040ba4eddcefe","fromSide":"right","toNode":"349262f386558819","toSide":"left"}
+		{"id":"3b0b5c1c8965f82e","fromNode":"f0cddac7b2e1c16e","fromSide":"right","toNode":"2d2cdec37a1bbf87","toSide":"left","label":"drives"},
+		{"id":"7c1b288d08e4943f","fromNode":"2d2cdec37a1bbf87","fromSide":"bottom","toNode":"e40f226a80e4574b","toSide":"top","label":"informs"},
+		{"id":"c9140b6c7c872138","fromNode":"e40f226a80e4574b","fromSide":"left","toNode":"f0cddac7b2e1c16e","toSide":"bottom","label":"populates"},
+		{"id":"10bb9e4980758126","fromNode":"e40f226a80e4574b","fromSide":"right","toNode":"dcbfb8590516bca6","toSide":"left","label":"informs"},
+		{"id":"0032e20e7261cdd7","fromNode":"2d2cdec37a1bbf87","fromSide":"right","toNode":"dcbfb8590516bca6","toSide":"left","label":"populates"},
+		{"id":"8904b3e88ecc2f79","fromNode":"393040ba4eddcefe","fromSide":"right","toNode":"f0cddac7b2e1c16e","toSide":"left"},
+		{"id":"271c85eb4636a02c","fromNode":"015a51198e39025a","fromSide":"right","toNode":"f0cddac7b2e1c16e","toSide":"left"},
+		{"id":"ea1574ed1661cb1c","fromNode":"f2c82f20a0cc8f7f","fromSide":"right","toNode":"f0cddac7b2e1c16e","toSide":"left"}
 	]
 }
