@@ -1,19 +1,11 @@
+networks:
+  core:
+    external: true
+
 services:
   diagram-app:
     build: .
     container_name: diagram-app
     restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.diagram-app.rule=Host(`diagrams.callums.work`)
-      - traefik.http.routers.diagram-app.entrypoints=websecure
-      - traefik.http.routers.diagram-app.tls=true
-      - traefik.http.routers.diagram-app.tls.certresolver=${TRAEFIK_CERTRESOLVER:-letsencrypt}
-      - traefik.http.services.diagram-app.loadbalancer.server.port=80
-      - traefik.docker.network=traefik-public
     networks:
       - core
-
-networks:
-  core:
-    external: true

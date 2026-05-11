@@ -10,14 +10,6 @@ This pass is visual only. Theme toggling and dark-mode behavior are intentionall
 
 ## Local run
 
-```bash
-docker compose up --build
-```
-
-If Traefik is not running locally, open `http://localhost` only when directly publishing the container port in a temporary local compose override.
-
-## Local run without Traefik
-
 Use the local compose file that binds nginx directly to port 8080:
 
 ```bash
@@ -43,17 +35,15 @@ Then open `http://localhost:8080`.
 ```
 
 4. Commit and push changes.
-5. Redeploy on the droplet:
+5. Deploy:
 
 ```bash
-docker compose pull
-docker compose up -d --build
+npm run deploy
 ```
 
-## Traefik route
+## Hosting
 
-- Router rule: `Host(diagrams.callums.work)`
-- Nginx handles `/diagrams` base-path routing and rewrites.
+Deployed on Hetzner (`root@62.238.0.56`) at `/opt/diagram-app`. The platform Caddy reverse proxy routes `diagrams.callums.work` → `diagram-app:80`. Nginx handles `/diagrams` base-path routing and rewrites.
 
 ## Verification
 

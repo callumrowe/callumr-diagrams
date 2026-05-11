@@ -7,7 +7,7 @@
   "scripts": {
     "test": "node --test",
     "start": "docker compose up -d --build",
-    "deploy": "gh repo sync && npm run start",
+    "deploy": "git push && ssh root@62.238.0.56 \"cd /opt/diagram-app && git pull && docker compose up --build -d\"",
     "start:local": "docker compose -f docker-compose.local.yml up --build"
   },
   "author": "",
